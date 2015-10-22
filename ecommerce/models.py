@@ -13,7 +13,7 @@ class Brand(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(blank=True)
-    #picture = models.ImageField()
+    picture = models.ImageField(upload_to='photos/%Y/%m/%d')
     price = models.DecimalField(decimal_places=2, max_digits=24, default=0)
     brand = models.ForeignKey(Brand)
     category = models.ForeignKey('Category')
@@ -41,9 +41,22 @@ class Category(models.Model):
 
 
 class Cart(models.Model):
-    # Homework
-    pass
+    delivery_name = models.CharField(max_length=30)
+    delivery_address = models.TextField(blank=True, default='')
+    payment_method = models.CharField(blank=True, max_length=20, default='')
+    paid = models.BooleanField(default=False)
+    total_discout = models.FloatField(default=0)
+    created_by = models.ForeignKey(User)
+
+    def __str__(self):
+        return 'Order #%d a/n %s ' % (self.id, self.delivery_name)
+
 
 class CartItem(models.Model):
-    # Homework
-    pass
+    product = models.ForeignKey(Product)
+    items = models.IntegerField(default=1)
+    discount_per_product = models.FloatField(default=0)
+    cart = models.ForeignKey(Cart)
+
+    def __str__(self):
+        return self.product.title
