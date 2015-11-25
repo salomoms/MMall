@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'ecommerce',
     'debug_toolbar',
-
+    'twitter_bootstrap',
+    'pipeline',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -109,5 +110,57 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static"),
+#)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
 MEDIA_ROOT = BASE_DIR+'/media/'
 MEDIA_URL = '/media/'
+
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.less.LessCompiler',
+)
+
+PIPELINE_CSS = {
+    'bootstrap': {
+        'source_filenames': (
+            'twitter_bootstrap/less/bootstrap.less',
+            'fontawesome/less/font-awesome.less',
+
+        ),
+        'output_filename': 'css/style.css',
+        'extra_context': {
+            'media': 'screen,projection',
+        },
+    },
+}
+PIPELINE_JS = {
+    'bootstrap': {
+        'source_filenames': (
+          'twitter_bootstrap/js/transition.js',
+          'twitter_bootstrap/js/modal.js',
+          'twitter_bootstrap/js/dropdown.js',
+          'twitter_bootstrap/js/tab.js',
+          'twitter_bootstrap/js/tooltip.js',
+          'twitter_bootstrap/js/popover.js',
+          'twitter_bootstrap/js/alert.js',
+          'twitter_bootstrap/js/button.js',
+          'twitter_bootstrap/js/carousel.js',
+          'twitter_bootstrap/js/affix.js',
+        ),
+        'output_filename': 'js/all.js',
+    },
+}
+
+import twitter_bootstrap
+bootstrap_less = os.path.join(os.path.dirname(twitter_bootstrap.__file__), 'static', 'less')
+PIPELINE_LESS_ARGUMENTS = u'--include-path={}'.format(os.pathsep.join([bootstrap_less, BASE_DIR+'/static/less']))
