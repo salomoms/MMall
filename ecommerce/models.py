@@ -15,6 +15,7 @@ class Product(models.Model):
     slug = models.SlugField(blank=True)
     picture = models.ImageField(upload_to='photos/%Y/%m/%d')
     price = models.DecimalField(decimal_places=2, max_digits=24, default=0)
+    description = models.TextField(max_length=255, blank=True)
     brand = models.ForeignKey(Brand)
     category = models.ForeignKey('Category')
     created_by = models.ForeignKey(User)

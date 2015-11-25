@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'ecommerce',
     'debug_toolbar',
     'twitter_bootstrap',
@@ -144,6 +145,12 @@ PIPELINE_CSS = {
     },
 }
 PIPELINE_JS = {
+    'jquery': {
+        'source_filenames':{
+            'admin/js/jquery.min.js',
+        },
+        'output_filename': 'js/jquery.js',
+    },
     'bootstrap': {
         'source_filenames': (
           'twitter_bootstrap/js/transition.js',

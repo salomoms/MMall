@@ -4,9 +4,9 @@ from MMall import settings
 from ecommerce.views import index
 
 urlpatterns = [
-    url(r'^', index),
     url(r'^admin/', include(admin.site.urls), name='index'),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    url(r'^', index),
 ]
 
 
