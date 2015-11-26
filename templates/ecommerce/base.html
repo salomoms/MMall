@@ -1,10 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% load pipeline %}
+{% load static %}
+{% load humanize %}
+<html>
 
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      {% stylesheet 'bootstrap' %}
+      {% javascript 'jquery' %}
+      {% javascript 'bootstrap' %}
+
+  </head>
+
+  <body>
+    {% block navbar %}
+    <div class="navbar navbar-default navbar-static-top" >
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <a class="navbar-brand" href="#"><span>Need help? call us 1-22-3456789</span></a>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"> <a href="#">Home</a> </li>
+              <li> <a href="#">Register</a> </li>
+              <li> <a href="#">Login</a> </li>
+              <li> <a href="{% url 'cart' %}">My Cart</a> </li>
+              <li> <a href="#">My Account</a> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endblock navbar %}
+
+    {% block headline %}
+    <div class="section ">
+      <div class="container">
+        <div class="row" >
+          <div class="col-md-6" >
+            <a  href="/"><h1><i class="fa fa-moon-o"></i> RembulanMall.com</h1></a>
+          </div>
+          <div class="col-md-6">
+              <div>
+             <div class="pull-right">
+
+			  	   <p>Welcome to our Online Store! </p>
+                    <div class="dropdown"><span>Cart:</span>
+                        <a class="dropdown-toggle" type="button" id="cartMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        {{ request.session.cart|length }} item(s) - Rp. {{ request.session.total_price | intcomma }}
+                            <span class="caret"></span></a>
+			  	   	<ul class="dropdown-menu" aria-labelledby="cartMenu">
+                            {% if request.session.cart|length > 0 %}
+                                {% for item, value in request.session.cart.items %}
+                        	        <li><a>{{ value.total }} x  {{ value.product.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+							<li><a>you have no items in your Shopping cart</a></li>
+                            {% endif %}
+					</ul>
+                    </div>
+
+			  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock headline %}
+
+    {% block carousel %}
+    {% endblock carousel %}
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block footer %}
+    <footer class="section section-primary">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm-3">
+            <h3>Information</h3>
+            <ul class="nav">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Customer Service</a></li>
+                <li><a href="#">Advanced Search</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h3>Why Buy From Us</h3>
+            <ul class="nav">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Site Map</a></li>
+                <li><a href="#">Search Terms</a></li>
+            </ul>
+          </div>
+
+            <div class="col-sm-3">
+                <h3>My Account</h3>
+                <ul class="nav">
+                    <li><a href="#">Sign In</a></li>
+                    <li><a href="{% url 'cart' %}">View Cart</a></li>
+                    <li><a href="#">My Wishlist</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+          <div class="col-sm-3">
+            <h3>Contact</h3>
+              <ul class="nav">
+                    <li><a >+91-123-456789</a></li>
+                    <li><a>+00-123-000000</a></li>
+                </ul>
+            <div class="row">
+              <div class="col-md-12 hidden-lg hidden-md hidden-sm ">
+                <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 hidden-xs ">
+                <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-github text-inverse"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% endblock footer %}
+
+
+  </body>
+
 </html>
