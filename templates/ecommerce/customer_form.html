@@ -1,0 +1,45 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block content %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div  class="panel panel-default">
+                    <div class="panel-body">
+
+                <h3>We need your detail information for this trx.</h3>
+                <form method="post" action="" class="form-horizontal">
+                    {{ form.management_form }}
+                    {% csrf_token %}
+                    {% for f in form %}
+                        {% for field in f %}
+                        <div class="form-group" style="border-bottom: 1px solid #dedede; padding-bottom: 5px;">
+                            {% if field.errors %}
+                            <div class="alert alert-danger">
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                             </div>
+                            {% endif %}
+
+                            {% ifnotequal field.label 'Id' %}
+                            <label for="{{ field.html_name }}" class="col-md-2">{{ field.label }}</label>
+                            {% endifnotequal %}
+                            <div class="col-md-10">
+                                {{ field }}
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <input type="submit" class="btn btn-info" value="Submit" />
+                </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

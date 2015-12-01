@@ -1,7 +1,7 @@
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from MMall import settings
-from ecommerce.views import index, addToCart, cart, checkout
+from ecommerce.views import index, addToCart, cart, checkout, delivery
 
 urlpatterns = [
     url(r'^$', index),
@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^cart/add/(?P<id>[0-9]+)/(?P<slug>.*)$', addToCart, name='add_to_cart'),
     url(r'^cart', cart, name='cart'),
     url(r'^checkout', checkout, name='checkout'),
+    url(r'^delivery', delivery, name='delivery'),
 ]
 
 

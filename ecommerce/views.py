@@ -1,5 +1,8 @@
-from django.shortcuts import render, redirect
-from ecommerce.models import Category, Product
+from django.forms import modelformset_factory
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
+from ecommerce.forms import CustomerForm, CartForm
+from ecommerce.models import Category, Product, Customer, Cart
 
 
 def index(request):
@@ -46,8 +49,29 @@ def cart(request):
 
 def checkout(request):
     if request.session.get('customer', None) is None:
+        customer_form = modelformset_factory(Customer, form=CustomerForm)
+
+        if request.method == 'POST':
+
+            customer_form = customer_form(request.POST)
+            if customer_form.is_valid():
+                customer = customer_form.save()
+
+                request.session['customer'] = {'id': customer[0].id, 'name': customer[0].name, 'email': customer[0].name, 'address': customer[0].address}
+                return redirect('/delivery')
+
+    else:
+        return redirect('/delivery')
+
+    return render_to_response('ecommerce/customer_form.html', {'form': customer_form}, RequestContext(request))
+
+
+def delivery(request):
+    print request.session.get('customer')
+    cart_form = modelformset_factory(Cart, form=CartForm)
+    if request.method == 'POST':
         pass
     else:
         pass
 
-    pass
+    return render(request, 'ecommerce/cart_item.html', {'form': cart_form})

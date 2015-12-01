@@ -41,13 +41,22 @@ class Category(models.Model):
         return self.name
 
 
+class Customer(models.Model):
+    email = models.EmailField(unique=True)
+    name = models.CharField(max_length=30)
+    address = models.TextField(blank=False)
+    birth_date = models.DateField(blank=False)
+    password = models.TextField(blank=False)
+    gender = models.CharField(blank=False, choices=(('Co', 'Cowok'),('Ce','Cewek')), max_length=2)
+
+
 class Cart(models.Model):
     delivery_name = models.CharField(max_length=30)
     delivery_address = models.TextField(blank=True, default='')
-    payment_method = models.CharField(blank=True, max_length=20, default='')
+    payment_method = models.CharField(blank=True, max_length=20, default='', choices=(('ngutang', 'Ngutang'), ('cod', 'Cash On Delivery')))
     paid = models.BooleanField(default=False)
     total_discout = models.FloatField(default=0)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(Customer)
 
     def __str__(self):
         return 'Order #%d a/n %s ' % (self.id, self.delivery_name)

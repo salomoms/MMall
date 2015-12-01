@@ -31,7 +31,7 @@
                                 <td align="center"><strong>Rp. {{ request.session.total_price | intcomma }}</strong></td>
                             </tr>
                         </table>
-                        <center><a href="" class="btn btn-primary">Checkout</a></center>
+                        <center><a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a></center>
                         {% else %}
                         <div class="alert alert-warning">
                             Your Cart is empty, belanja dooonngg ... !!!
